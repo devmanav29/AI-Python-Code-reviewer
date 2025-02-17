@@ -1,6 +1,6 @@
 import streamlit as st
 import time
-import openai  # OpenAI API client
+from openai import OpenAI # OpenAI API client
 
 # Securely load API key from Streamlit secrets
 openai.api_key = st.secrets["OPENAI_API_KEY"]
