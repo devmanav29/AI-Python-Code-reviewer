@@ -1,9 +1,13 @@
 import streamlit as st
 import time
-from openai import OpenAI # OpenAI API client
+import google.generativeai as genai
 
-# Securely load API key from Streamlit secrets
-openai.api_key = st.secrets["OPENAI_API_KEY"]
+
+# Initialize Google Generative AI client
+genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
+model = genai.GenerativeModel('gemini-pro')
+
+
 
 # Streamlit app title
 st.title("GenAI App - AI Code Reviewer")
@@ -21,22 +25,21 @@ def review_code(code):
     Code:
     {code}
     """
-
-    for attempt in range(5):  # Retry up to 5 times in case of failure
+    
+    for attempt in range(5):  # Retry up to 5 times
         try:
-            response = openai.ChatCompletion.create(
-                model="gpt-4",
-                messages=[{"role": "system", "content": "You are an AI code reviewer."},
-                          {"role": "user", "content": prompt}]
-            )
-            return response["choices"][0]["message"]["content"]
+            response = model.generate_content(prompt)
+            return response.text
         except Exception as e:
-            if attempt < 4:  # If not the last attempt, retry with exponential backoff
+            if attempt < 4:  # If not the last attempt
                 st.warning(f"API error occurred. Retrying... Error: {str(e)}")
-                time.sleep(2 ** attempt)
+                time.sleep(2 ** attempt)  # Exponential backoff
             else:
                 st.error(f"API request failed. Please try again later. Error: {str(e)}")
                 return None
+
+
+
 
 # Button to trigger code review
 if st.button("Review Code"):
@@ -45,14 +48,13 @@ if st.button("Review Code"):
     else:
         with st.spinner("Reviewing your code..."):
             review = review_code(code)
-            if review:
-                st.subheader("Code Review Feedback")
-                st.write(review)
+            st.subheader("Code Review Feedback")
+            st.write(review)
 
 # Instructions
 st.sidebar.header("Instructions")
 st.sidebar.markdown("""
-1. Paste your Python code in the text area  
-2. Click 'Review Code'  
-3. View the code review feedback  
+1. Paste your Python code in the text area
+2. Click 'Review Code'
+3. View the code review feedback
 """)
