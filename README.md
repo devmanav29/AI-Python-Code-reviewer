@@ -3,10 +3,11 @@
 An AI-powered Python code review application built with Streamlit and OpenAI API.
 
 ## Features
-- Submit Python code for review
-- Receive detailed bug reports
-- Get suggested fixes and improvements
-- Clean and intuitive interface
+* Automated Code Review - AI powered analysis for better code quality
+* Bug Detection- Identifies potential issues and suggests fixes
+* Code Optimization - Provides recommendations to enchance efficiency
+* Multi-Language Support - Works with Python, JAVA, and more
+* Real-Time Feedback - Instant suggestions to improve development speed
 
 ## Installation
 1. Clone this repository
