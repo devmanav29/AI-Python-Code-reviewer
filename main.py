@@ -3,6 +3,11 @@ import time
 import google.generativeai as genai
 import os
 
+header = {
+    "authorization": st.secrets["GOOGLE_API_KEY"]
+    "content-type": "application/json"
+}
+
 # Ensure the API key is correctly loaded
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY", None)
 if GOOGLE_API_KEY is None:
