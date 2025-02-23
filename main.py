@@ -4,7 +4,7 @@ import google.generativeai as genai
 import os
 
 header = {
-    "authorization": st.secrets["GOOGLE_API_KEY"]
+    "authorization": st.secrets["GOOGLE_API_KEY"],
     "content-type": "application/json"
 }
 
